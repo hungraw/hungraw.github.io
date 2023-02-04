@@ -1,38 +1,23 @@
 <html>
-  <head>
-    <script>
-      window.onload = function() {
-        // Check if localStorage already contains data for the table
-        if (localStorage.getItem("tableData")) {
-          document.getElementById("table").innerHTML = localStorage.getItem("tableData");
-        }
-        
-        // Add event listeners to cells to save data on change
-        var cells = document.querySelectorAll("td");
-        for (var i = 0; i < cells.length; i++) {
-          cells[i].addEventListener("input", function() {
-            localStorage.setItem("tableData", document.getElementById("table").innerHTML);
-          });
-        }
-      }
-    </script>
-  </head>
   <body>
-    <table id="table">
+    <table>
       <tr>
         <td>Hung</td>
         <td contenteditable="true"></td>
-        <!-- 30 more cells -->
+        <td contenteditable="true"></td>
+        <!-- 29 more cells -->
       </tr>
       <tr>
         <td>Hoang</td>
         <td contenteditable="true"></td>
-        <!-- 30 more cells -->
+        <td contenteditable="true"></td>
+        <!-- 29 more cells -->
       </tr>
       <tr>
         <td>Nguyen</td>
         <td contenteditable="true"></td>
-        <!-- 30 more cells -->
+        <td contenteditable="true"></td>
+        <!-- 29 more cells -->
       </tr>
     </table>
   </body>
