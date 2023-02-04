@@ -1,69 +1,39 @@
 <html>
   <head>
-    <style>
-      table, th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-        padding: 5px;
-      }
-    </style>
-  </head>
-  <body onload="loadData()">
-    <table id="dataTable">
-      <tr>
-        <th>Hung</th>
-        <th>Hoang</th>
-        <th>Nguyen</th>
-      </tr>
-      <tr>
-        <td contenteditable="true"></td>
-        <td contenteditable="true"></td>
-        <td contenteditable="true"></td>
-      </tr>
-      <!-- Repeat the above row 30 times -->
-    </table>
-    <br>
-    <button onclick="deleteNumbers()">Delete All Numbers</button>
-
     <script>
-      function loadData() {
-        const table = document.querySelector("#dataTable");
-        const data = JSON.parse(localStorage.getItem("data")) || [];
-        for (let i = 0; i < data.length; i++) {
-          const row = table.insertRow(-1);
-          for (let j = 0; j < data[i].length; j++) {
-            const cell = row.insertCell(j);
-            cell.textContent = data[i][j];
-          }
+      window.onload = function() {
+        // Check if localStorage already contains data for the table
+        if (localStorage.getItem("tableData")) {
+          document.getElementById("table").innerHTML = localStorage.getItem("tableData");
+        }
+        
+        // Add event listeners to cells to save data on change
+        var cells = document.querySelectorAll("td");
+        for (var i = 0; i < cells.length; i++) {
+          cells[i].addEventListener("input", function() {
+            localStorage.setItem("tableData", document.getElementById("table").innerHTML);
+          });
         }
       }
-
-      function deleteNumbers() {
-        const table = document.querySelector("#dataTable");
-        for (let i = 1; i < table.rows.length; i++) {
-          for (let j = 0; j < table.rows[i].cells.length; j++) {
-            table.rows[i].cells[j].textContent = "";
-          }
-        }
-        saveData();
-      }
-
-      function saveData() {
-        const table = document.querySelector("#dataTable");
-        const data = [];
-        for (let i = 1; i < table.rows.length; i++) {
-          const row = [];
-          for (let j = 0; j < table.rows[i].cells.length; j++) {
-            row.push(table.rows[i].cells[j].textContent);
-          }
-          data.push(row);
-        }
-        localStorage.setItem("data", JSON.stringify(data));
-      }
-
-      document.querySelectorAll("td").forEach(cell => {
-        cell.addEventListener("input", saveData);
-      });
     </script>
+  </head>
+  <body>
+    <table id="table">
+      <tr>
+        <td>Hung</td>
+        <td contenteditable="true"></td>
+        <!-- 30 more cells -->
+      </tr>
+      <tr>
+        <td>Hoang</td>
+        <td contenteditable="true"></td>
+        <!-- 30 more cells -->
+      </tr>
+      <tr>
+        <td>Nguyen</td>
+        <td contenteditable="true"></td>
+        <!-- 30 more cells -->
+      </tr>
+    </table>
   </body>
 </html>
