@@ -1,72 +1,69 @@
 <html>
   <head>
-    <title>Number Table</title>
     <style>
-      table {
+      table, th, td {
+        border: 1px solid black;
         border-collapse: collapse;
-        width: 100%;
-      }
-
-      td, th {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: center;
-      }
-
-      th {
-        background-color: #ddd;
-      }
-
-      input[type="text"] {
-        width: 100%;
         padding: 5px;
-        text-align: center;
       }
     </style>
   </head>
-  <body>
-    <table>
-      <tr>
-        <th>Day</th>
-        <th>1</th>
-        <th>2</th>
-        <th>3</th>
-        <!-- add 28 more columns -->
-        <th>29</th>
-        <th>30</th>
-        <th>31</th>
-      </tr>
+  <body onload="loadData()">
+    <table id="dataTable">
       <tr>
         <th>Hung</th>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <!-- add 28 more columns -->
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-      </tr>
-      <tr>
         <th>Hoang</th>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <!-- add 28 more columns -->
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
+        <th>Nguyen</th>
       </tr>
       <tr>
-        <th>Nguyen</th>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <!-- add 28 more columns -->
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
+        <td contenteditable="true"></td>
       </tr>
+      <!-- Repeat the above row 30 times -->
     </table>
-    <p>Note: Enter a number in each cell to complete the table</p>
+    <br>
+    <button onclick="deleteNumbers()">Delete All Numbers</button>
+
+    <script>
+      function loadData() {
+        const table = document.querySelector("#dataTable");
+        const data = JSON.parse(localStorage.getItem("data")) || [];
+        for (let i = 0; i < data.length; i++) {
+          const row = table.insertRow(-1);
+          for (let j = 0; j < data[i].length; j++) {
+            const cell = row.insertCell(j);
+            cell.textContent = data[i][j];
+          }
+        }
+      }
+
+      function deleteNumbers() {
+        const table = document.querySelector("#dataTable");
+        for (let i = 1; i < table.rows.length; i++) {
+          for (let j = 0; j < table.rows[i].cells.length; j++) {
+            table.rows[i].cells[j].textContent = "";
+          }
+        }
+        saveData();
+      }
+
+      function saveData() {
+        const table = document.querySelector("#dataTable");
+        const data = [];
+        for (let i = 1; i < table.rows.length; i++) {
+          const row = [];
+          for (let j = 0; j < table.rows[i].cells.length; j++) {
+            row.push(table.rows[i].cells[j].textContent);
+          }
+          data.push(row);
+        }
+        localStorage.setItem("data", JSON.stringify(data));
+      }
+
+      document.querySelectorAll("td").forEach(cell => {
+        cell.addEventListener("input", saveData);
+      });
+    </script>
   </body>
 </html>
